@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucid Dreams - Typographic Texture</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body class="no-scroll">
+    <div id="intro-splash" class="splash-screen">
+        <div class="splash-content-box" onclick="event.stopPropagation()">
+            <div class="splash-title">Hello,</div>
+            <div class="splash-description">
+                This is a timeline of awareness. Spanning from the moment you wake to the next sunrise, the website unfolds through continuous scrolling, mapping six gateways to lucid dreaming across the cycles of day, night, and sleep.
+            </div>
+            <div class="splash-start" onclick="hideSplash(true)">START</div>
+        </div>
+    </div>
+    <!-- Main title div hidden as the canvas pattern takes over -->
+    <div class="main-center-title" style="display: none;">I AM GOING TO HAVE A LUCID DREAM</div>
+    <div class="top-left-about-title" onclick="toggleAbout()">ABOUT</div>
+    <div class="top-right-play-pause" onclick="togglePlayPause()">
+        <span class="btn-text">PLAY</span>
+        <i class="fa-solid fa-play"></i>
+    </div>
+    <div class="top-line"></div>
+    <div class="header-blur"></div>
+
+    <div id="about-overlay" class="about-screen">
+        <div class="about-content-box">
+            <div class="about-description-text">
+                Lucid Dreaming is a scientifically recognized state where an individual attains metacognitive awareness while remains in REM sleep. In this state, the dreamer gains the ability to consciously observe or exert control over the dream environment, transforming a passive experience into an active, immersive simulation. Practitioners pursue lucidity for various applications, including cognitive skill rehearsal, creative problem-solving, and the therapeutic resolution of recurring nightmares.
+                <br><br>
+                Achieving consistent lucidity requires a systematic approach to memory and awareness. This platform is designed to streamline that process by providing technical protocols and structured induction methods. By consolidating habit-forming techniques and cognitive primers into a functional framework, this site serves as a specialized toolkit to help you bridge the gap between intent and awareness.
+            </div>
+            <div class="about-back" onclick="toggleAbout(false)">GO BACK</div>
+        </div>
+    </div>
+    <nav class="secondary-nav">
+        <div class="secondary-nav-item" data-nav="RT">1. REALETY TEST</div>
+        <div class="secondary-nav-divider"></div>
+        <div class="secondary-nav-item" data-nav="WRILD">2. WRITING-INDUCED LUCID DREAMING</div>
+        <div class="secondary-nav-divider"></div>
+        <div class="secondary-nav-item" data-nav="SSILD">3. SENSES INITIATED LUCID DREAMS</div>
+        <div class="secondary-nav-divider"></div>
+        <div class="secondary-nav-item" data-nav="FILD">4. FINGER INDUCED LUCID DREAM</div>
+        <div class="secondary-nav-divider"></div>
+        <div class="secondary-nav-item" data-nav="MILD">5. MNEMONIC INDUCTION OF LUCID DREAMS</div>
+        <div class="secondary-nav-divider"></div>
+        <div class="secondary-nav-item" data-nav="DJ">6. DREAM JOURNAL</div>
+    </nav>
+    <div class="top-center-title" style="display: none;">I AM GOING TO HAVE A LUCID DREAM</div>
+    <audio id="ambient-sound" loop>
+        <source src="goodsound.mp4" type="audio/mp4">
+        Your browser does not support the audio element.
+    </audio>
+    <div class="page-wrapper">
+    <div class="section-title-container">
+        <div class="section-title active" data-section="0">I AM GOING TO HAVE A LUCID DREAM</div>
+        <div class="section-title" data-section="2">DURING THE DAY</div>
+        <div class="section-title" data-section="3">2 HOURS BEFORE SLEEP</div>
+        <div class="section-title" data-section="4">DURING THE NIGHT</div>
+        <div class="section-title" data-section="4">DURING THE NIGHT</div>
+        <div class="section-title" data-section="4">DURING THE NIGHT</div>
+        <div class="section-title" data-section="5">AFTER WAKING</div>
+        <div class="section-title" data-section="6">YOU ARE READY TO HAVE A LUCID DREAM</div>
+    </div>
+    
+    <!-- Descriptions moved outside the container so they can be layered below the blur (z-index: 200 < 1400) -->
+    <div class="section-description" data-section-id="2">
+        <div class="title-container">Reality Tests<span class="footnote">RT</span><br><span class="footnote" style="margin-left: 0; font-size: 14px; padding-top: 8px; display: inline-block;">EFFICIENCY LEVEL - MODERATE: REQUIRES LONG-TERM CONSISTENCY</span></div><br>
+        Perform 10–20 times daily to establish a cognitive habit that transfers into sleep. Execute physical checks like counting fingers, reading text twice, or checking <br>a digital clock to identify environmental inconsistencies. Since the dreaming brain cannot maintain stable data, observing blurred text or distorted anatomy triggers metacognitive awareness, transitioning you into a lucid state.
+    </div>
+    <div class="section-description" data-section-id="3">
+        <div class="title-container">Writing-Induced Lucid Dreaming<span class="footnote">WrILD</span><br><span class="footnote" style="margin-left: 0; font-size: 14px; padding-top: 8px; display: inline-block;">EFFICIENCY LEVEL - MODERATE: EFFECTIVE FOR COGNITIVE PRIMING, REQUIRES SUPPLEMENTARY TECHNIQUES</span></div><br>
+        Write the sentence "I am going to have a lucid dream" 50–100 times before bed to prime your subconscious. This repetitive manual input strengthens prospective memory and sets a high-salience intention, increasing the likelihood of metacognitive recognition during the REM cycle.
+    </div>
+    <div class="section-description" data-section-id="4">
+        <div class="technique-container">
+        <div class="title-container">SENSES INITIATED LUCID DREAMS<span class="footnote">SSILD</span><br><span class="footnote" style="margin-left: 0; font-size: 14px; padding-top: 8px; display: inline-block;">EFFICIENCY LEVEL - VERY HIGH: RELIABLE FOR INDUCING FALSE AWAKENINGS AND HIGH-CLARITY LUCIDITY</span></div><br>
+            Cycling focus through vision, hearing, and touch while lying still. Execute 4–6 fast cycles (5 seconds per sense) to prime the brain, followed by 3–4 slow cycles (30 seconds per sense) to deepen awareness. This systematic stimulation of the sensory systems during the hypnagogic transition creates a "false awakening" or triggers lucidity by maintaining a thread of consciousness as the body enters REM.
+        </div>
+    </div>
+    <div class="section-description" data-section-id="4b">
+        <div class="technique-container">
+        <div class="title-container">Finger Induced Lucid Dream<span class="footnote">FILD</span><br><span class="footnote" style="margin-left: 0; font-size: 14px; padding-top: 8px; display: inline-block;">EFFICIENCY LEVEL - MODERATE-HIGH: EXTREMELY FAST TRANSITIONS IF TIMED PERFECTLY WITH REM ATOMICITY</span></div><br>
+            Gently alternating the movement of your index and middle fingers - as if pressing two piano keys -with minimal physical exertion. Maintain a calm, neutral mindset while drifting toward sleep; the rhythmic motion serves as a conscious anchor while the body enters REM. After 30–60 seconds, or once you feel a shift in state, perform a reality test (like the nose-pinch breath) to confirm you have transitioned into the dream.
+        </div>
+    </div>
+    <div class="section-description" data-section-id="4c">
+        <div class="technique-container">
+        <div class="title-container">Mnemonic Induction Lucid Dreams<span class="footnote">MILD</span><br><span class="footnote" style="margin-left: 0; font-size: 14px; padding-top: 8px; display: inline-block;">EFFICIENCY LEVEL - HIGH: LEVERAGES PROSPECTIVE MEMORY WITH A STRONG SCIENTIFIC TRACK RECORD</span></div><br>
+        Recall your most recent dream in detail and identifying specific dream signs (anomalies). Visualize yourself re-entering that dream and recognizing those signs to become lucid. Simultaneously, repeat the mantra: "The next time I am dreaming, I will remember that I am dreaming." This process utilizes prospective memory to bridge the gap between intent and action, ensuring lucidity is triggered once the REM cycle begins.
+        </div>
+    </div>
+    <div class="section-description" data-section-id="5">
+        <div class="title-container">Dream Journal<span class="footnote">DJ</span><br><span class="footnote" style="margin-left: 0; font-size: 14px; padding-top: 8px; display: inline-block;">EFFICIENCY LEVEL - HIGH: CRITICAL FOR STRENGTHENING THE BRAIN'S PATTERN RECOGNITION</span></div><br>
+        Immediately recall the dream and write down every detail to improve recall and identify recurring dream signs.
+    </div>
+    <div id="wrild-text" class="wrild-text" style="display: none;">
+        <p class="wrild-description">Write the sentence "I am going to have a lucid dream" 50–100 times before bed to prime your subconscious. This repetitive manual input strengthens prospective memory and sets a high-salience intention, increasing the likelihood of metacognitive recognition during the REM cycle.</p>
+        <p class="wrild-prompt">You can write your text here.</p>
+        <textarea id="wrild-textarea" class="wrild-textarea" placeholder="Start writing..."></textarea>
+    </div>
+    <!-- Background text layer removed as per user request -->
+    <div class="lucid-dreaming-text" style="display: none;">
+        Lucid dreaming is a unique state of consciousness in which a person is dreaming while being aware that they are dreaming. Unlike ordinary dreams, where the dreamer is fully absorbed in events without questioning their reality, a lucid dream introduces a layer of self-awareness. The dream is experienced as a mental construct rather than an external reality, yet it continues to unfold as a vivid, immersive experience. This awareness does not necessarily end the dream; in many cases, it allows the dream to continue with increased clarity and, at times, with the ability to make conscious decisions within it. From a neuroscientific perspective, lucid dreaming most commonly occurs during REM sleep, a stage characterized by high brain activity, rapid eye movements, and temporary muscle atonia. Research suggests that during lucid dreams, brain regions associated with self-reflection, executive function, and critical thinking become more active than in regular dreaming. This results in a hybrid state: the brain remains asleep, while certain mechanisms of wakeful awareness are partially reactivated. Lucid dreaming is therefore not a deeper form of sleep, but a borderline condition between sleep and wakefulness. Lucid dreams are not rare or supernatural. Many people experience them spontaneously at some point in their lives, particularly during childhood. However, it is also possible to learn and practice techniques that increase the likelihood of entering a lucid dream. These methods are not guarantees and do not produce immediate results. They are based on training attention, memory, and awareness, both during wakefulness and around the sleep cycle. There is no single universal method; different techniques operate on different principles and suit different people and stages of practice. In general, lucid dreaming techniques can be divided into two main categories. The first group relies on recognizing that one is dreaming from within the dream itself. These methods train the dreamer to develop habits of critical awareness during waking life, such as questioning reality or noticing inconsistencies in the environment. Over time, these habits can carry over into dreams, where illogical transitions, distorted time, or unstable physical laws trigger the realization that the experience is a dream. At that moment, lucidity emerges. The second category of methods attempts to maintain continuous awareness as the body falls asleep. In these approaches, the focus is on physical and mental sensations: relaxation, breathing, hypnagogic imagery, and the gradual withdrawal of sensory input. The challenge is to remain mentally alert without fully waking the body or losing consciousness. These methods often require practice, patience, and familiarity with the body's transition into sleep.
+Between these two categories are hybrid techniques that combine memory, timing, sensory focus, and suggestion. Some methods emphasize pre-sleep preparation, such as intention setting or dream journaling. Others use nighttime awakenings, sensory stimulation, or focus on specific senses like sight, sound, or touch. Each method provides a different structure: what to do, when to do it, for how long, and what common mistakes to avoid. It is important to note that lucid dreaming does not always mean complete control over the dream. Lucidity can be partial, unstable, or short-lived. In some cases, the moment of realization causes the dreamer to wake up. These experiences are not failures but part of the learning process. The goal is not perfect control, but a deeper understanding of how awareness operates during sleep and how conscious choice can emerge within an unconscious state. People use lucid dreaming for many purposes: self-exploration, creative experimentation, nightmare reduction, or the study of consciousness itself. Regardless of motivation, lucid dreaming is a skill-based practice grounded in observation, consistency, and systematic training. Each technique is part of a larger framework of habits and decisions, and understanding the principles behind them allows for informed and intentional use. Lucid dreaming is not an escape from reality, but a practice of awareness within one of the most unstable and unpredictable states of the human mind. Within a space where rules collapse and logic shifts, it offers the possibility to remain present, to observe, and to act consciously. A central component in lucid dreaming practice is dream recall. Without the ability to remember dreams, lucidity remains difficult to identify, analyze, or develop over time. Improving dream recall is not a passive process; it involves consistent attention to dream content upon waking, often through writing or recording dreams as soon as possible after they occur. This practice strengthens the connection between waking memory systems and the dream state, making it more likely that moments of awareness within dreams will be retained and recognized.
+Intention plays a significant role in many lucid dreaming methods. Setting a clear, simple intention before sleep — such as reminding oneself to notice when a dream is occurring — can influence the content and structure of dreams without requiring conscious effort during sleep. This process is not based on force or control, but on priming the mind to prioritize a certain type of awareness. Over time, intention becomes a conditioning mechanism that shapes how the mind transitions between wakefulness and dreaming.
+Sensory stability is another key factor in maintaining lucidity once it has been achieved. Many lucid dreams end prematurely due to excessive excitement or loss of attentional focus. Learning to remain calm, to anchor attention in sensory details such as touch, sound, or movement, can help prolong the experience. This highlights an important principle: lucid dreaming is not only about becoming aware, but about managing awareness within a highly unstable mental environment.
+The practice of lucid dreaming also raises questions about the nature of agency and control. Even in a lucid state, the dream environment retains a degree of autonomy. Events may unfold in unexpected ways, and attempts at direct control can sometimes lead to fragmentation or awakening. This suggests that effective lucid dreaming is less about dominating the dream and more about negotiating with it — working with emerging images and responding to them rather than imposing fixed outcomes.
+From a broader perspective, lucid dreaming functions as a training ground for meta-awareness — the ability to notice and reflect on one's own mental states while they are occurring. This skill is not limited to sleep. Practitioners of lucid dreaming often report increased sensitivity to attention, perception, and thought patterns during waking life. In this sense, the practice extends beyond the dream itself and becomes part of a larger investigation into how consciousness operates across different states.
+Ultimately, lucid dreaming is not a single experience but a continuum of states, ranging from momentary realization to sustained, stable awareness. Each attempt, whether successful or not, provides data: about timing, mental conditions, physical states, and cognitive habits. Approached systematically, lucid dreaming becomes a method of study — not of the dream world as a fantasy space, but of the mind's capacity to observe itself from within.
+    </div>
+    <!-- Spacer to allow scrolling -->
+    <div id="scroll-spacer" class="scroll-spacer"></div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="newsletter-invite">NEWSLETTER: <span>Wake up to new insights</span></div>
+        <div class="footer-copyright">
+            <div id="footer-chita-placeholder" style="width: 140px; height: 100px; margin-bottom: 5px;"></div>
+            <span>© 2026 SHIRA PELEG</span>
+        </div>
+        <div class="studio-name">STUDIO WWW (TEMPORARY NAME)</div>
+    </footer>
+
+    <script src="sketch.js"></script>
+    <script>
+        // ASCII glitch effect for background text
+        document.addEventListener('DOMContentLoaded', function() {
+            // Background text glitch removed as element is hidden
+            /*
+            const backgroundTextElement = document.querySelector('.lucid-dreaming-text');
+            if (backgroundTextElement) {
+                ...
+            }
+            */
+            
+            // Smooth text transition on hover - expand abbreviations to full text in navigation
+            const navItemsMap = {
+                'ssild.html': { default: 'SSILD', hover: 'SENSES INITIATED LUCID DREAMS' },
+                'mild.html': { default: 'MILD', hover: 'MNEMONIC INDUCTION LUCID DREAMS' },
+                'fild.html': { default: 'FILD', hover: 'FINGER INDUCED LUCID DREAM' },
+                'wrild.html': { default: 'WrILD', hover: 'WRITING-INDUCED LUCID DREAMING' },
+                'rt.html': { default: 'RT', hover: 'REALITY TESTS' },
+                'dj.html': { default: 'DJ', hover: 'DREAM JOURNAL' }
+            };
+            
+            Object.keys(navItemsMap).forEach(function(page) {
+                const navItem = document.querySelector('.top-navigation .nav-item[data-page="' + page + '"]');
+                if (navItem) {
+                    const texts = navItemsMap[page];
+                    navItem.addEventListener('mouseenter', function() {
+                        this.textContent = texts.hover;
+                    });
+                    navItem.addEventListener('mouseleave', function() {
+                        this.textContent = texts.default;
+                    });
+                }
+            });
+            
+            // Add click handler for WrILD link
+            // Mark current page as active (but not for index.html - it's the home page)
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navItems = document.querySelectorAll('.top-navigation .nav-item[data-page]');
+            // Don't mark any item as active on index.html
+            if (currentPage !== 'index.html' && currentPage !== '') {
+                navItems.forEach(function(item) {
+                    const itemPage = item.getAttribute('data-page');
+                    if (itemPage === currentPage) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+            
+            const wrildLink = document.getElementById('wrild-link');
+            if (wrildLink) {
+                wrildLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (typeof toggleSquareMode === 'function') {
+                        toggleSquareMode();
+                    }
+                });
+            }
+            
+            // Add navigation handlers for all nav items
+            navItems.forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    if (page) {
+                        window.location.href = page;
+                    }
+                });
+            });
+            
+            // Restrict textarea to English characters only
+            const wrildTextarea = document.getElementById('wrild-textarea');
+            if (wrildTextarea) {
+                // Allow only English letters, numbers, spaces, and basic punctuation
+                wrildTextarea.addEventListener('input', function(e) {
+                    // Remove any non-English characters
+                    this.value = this.value.replace(/[^a-zA-Z0-9\s.,!?;:'"()-]/g, '');
+                });
+                
+                // Prevent paste of non-English characters
+                wrildTextarea.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const paste = (e.clipboardData || window.clipboardData).getData('text');
+                    const englishOnly = paste.replace(/[^a-zA-Z0-9\s.,!?;:'"()-]/g, '');
+                    const start = this.selectionStart;
+                    const end = this.selectionEnd;
+                    this.value = this.value.substring(0, start) + englishOnly + this.value.substring(end);
+                    this.selectionStart = this.selectionEnd = start + englishOnly.length;
+                });
+            }
+            
+            // Scroll-based dark mode transition
+            function updateColorsBasedOnScroll() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                
+                // Recalculate scrollToSticky to align with section transitions
+                const largeTitleCenterY = windowHeight / 2 - 100;
+                const largeTitleHeight = window.innerWidth * 0.15;
+                const spacing = 300;
+                const initialSmallTitleTop = largeTitleCenterY + (largeTitleHeight / 2) + spacing;
+                const stickyTopPosition = 17; 
+                const scrollToSticky = initialSmallTitleTop - stickyTopPosition; 
+                
+                const maxScroll = (documentHeight - windowHeight);
+                const effectiveScroll = Math.max(0, maxScroll - scrollToSticky);
+                const stickyScroll = Math.max(0, scrollTop - scrollToSticky);
+                let scrollProgress = effectiveScroll > 0 ? Math.min(stickyScroll / effectiveScroll, 1) : 0;
+                
+                // Define color stops based on sections
+                // Section 0 (SIX STEPS): 0.0 - 0.2
+                // Section 1 (DURING THE DAY): 0.2 - 0.4
+                // Section 2 (2 HOURS BEFORE SLEEP): 0.4 - 0.6
+                // Section 3 (DURING THE NIGHT): 0.6 - 0.8
+                // Section 4 (AFTER WAKING): 0.8 - 1.0
+                const stops = [
+                    { p: 0.0, bg: [255, 255, 255], text: [43, 45, 66],  primary: [217, 217, 217], secondary: [107, 107, 107], tertiary: [64, 65, 85] },   // White
+                    { p: 0.28, bg: [255, 255, 255], text: [43, 45, 66],  primary: [217, 217, 217], secondary: [107, 107, 107], tertiary: [64, 65, 85] },  // Stay White through first sections
+                    { p: 0.35, bg: [0, 0, 0],       text: [255, 255, 255], primary: [217, 217, 217], secondary: [107, 107, 107], tertiary: [64, 65, 85] },   // Sharper transition to Black
+                    { p: 0.76, bg: [0, 0, 0],       text: [255, 255, 255], primary: [217, 217, 217], secondary: [107, 107, 107], tertiary: [64, 65, 85] },   // Stay Black through night sections
+                    { p: 0.84, bg: [255, 255, 255], text: [43, 45, 66],  primary: [217, 217, 217], secondary: [107, 107, 107], tertiary: [64, 65, 85] },   // Sharper transition back to White
+                    { p: 1.0, bg: [255, 255, 255], text: [43, 45, 66],  primary: [217, 217, 217], secondary: [107, 107, 107], tertiary: [64, 65, 85] }    // End White
+                ];
+
+                // Interpolate colors between stops
+                let bg = [255, 255, 255], text = [43, 45, 66], primary = [43, 45, 66], secondary = [4, 50, 242], tertiary = [205, 0, 16];
+                
+                for (let i = 0; i < stops.length - 1; i++) {
+                    if (scrollProgress >= stops[i].p && scrollProgress <= stops[i+1].p) {
+                        const localProgress = (scrollProgress - stops[i].p) / (stops[i+1].p - stops[i].p);
+                        
+                        // Use cubic easing to minimize time spent in gray transition areas
+                        const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                        const tBg = ease(localProgress);
+                        // Sharper flip for text color to maintain readability
+                        const tText = localProgress < 0.5 ? 0 : 1;
+                        
+                        const interpolate = (start, end, t) => Math.round(start + (end - start) * t);
+                        
+                        bg = stops[i].bg.map((c, idx) => interpolate(c, stops[i+1].bg[idx], tBg));
+                        text = stops[i].text.map((c, idx) => interpolate(c, stops[i+1].text[idx], tText));
+                        primary = stops[i].primary.map((c, idx) => interpolate(c, stops[i+1].primary[idx], localProgress));
+                        secondary = stops[i].secondary.map((c, idx) => interpolate(c, stops[i+1].secondary[idx], localProgress));
+                        tertiary = stops[i].tertiary.map((c, idx) => interpolate(c, stops[i+1].tertiary[idx], localProgress));
+                        break;
+                    }
+                }
+                
+                const root = document.documentElement;
+                root.style.setProperty('--bg-color', `rgb(${bg[0]}, ${bg[1]}, ${bg[2]})`);
+                root.style.setProperty('--text-color', `rgb(${text[0]}, ${text[1]}, ${text[2]})`);
+                root.style.setProperty('--primary-color', `rgb(${primary[0]}, ${primary[1]}, ${primary[2]})`);
+                root.style.setProperty('--secondary-color', `rgb(${secondary[0]}, ${secondary[1]}, ${secondary[2]})`);
+                root.style.setProperty('--tertiary-color', `rgb(${tertiary[0]}, ${tertiary[1]}, ${tertiary[2]})`);
+                
+                // Section title color logic
+                const bgBrightness = bg[0] * 0.299 + bg[1] * 0.587 + bg[2] * 0.114;
+                const sectionTitleColor = bgBrightness > 127.5 ? [43, 45, 67] : [255, 255, 255];
+                const sectionTitleOpacity = bgBrightness > 127.5 ? 0.5 : 0.75;
+                
+                root.style.setProperty('--section-title-color', `rgb(${sectionTitleColor[0]}, ${sectionTitleColor[1]}, ${sectionTitleColor[2]})`);
+                root.style.setProperty('--section-title-opacity', sectionTitleOpacity);
+                
+                // Update p5.js colors if available
+                if (typeof updateP5Colors === 'function') {
+                    updateP5Colors([primary, secondary, tertiary], bg);
+                }
+
+                // Toggle header blur based on scroll
+                const headerBlur = document.querySelector('.header-blur');
+                if (headerBlur) {
+                    if (scrollTop > 10) {
+                        headerBlur.classList.add('active');
+                    } else {
+                        headerBlur.classList.remove('active');
+                    }
+                }
+            }
+            
+            // Update section titles based on scroll position
+            function updateSectionTitles() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                
+                // Calculate initial positions - both titles start together as a group
+                const titleContainer = document.querySelector('.section-title-container');
+                const canvas = document.querySelector('canvas');
+                const largeTitleCenterY = windowHeight / 2 - 70; // Position of large title center (adjusted +30px)
+                const largeTitleHeight = window.innerWidth * 0.15; // Approximate height of large title
+                const spacing = 300; // Spacing between titles (adjusted +20px)
+                const initialSmallTitleTop = largeTitleCenterY + (largeTitleHeight / 2) + spacing;
+                
+                // Calculate how much to scroll before small title reaches top
+                const stickyTopPosition = 17; 
+                const scrollToSticky = initialSmallTitleTop - stickyTopPosition; 
+                
+                // Move both titles together as a group until small title reaches top
+                if (scrollTop < scrollToSticky) {
+                    // Both titles move up together as one group with the same scroll offset
+                    const groupOffset = scrollTop;
+                    
+                    // Move canvas (large title) up - using the same offset
+                    // Canvas content is drawn at center, so we translate it up by the scroll amount
+                    if (canvas) {
+                        canvas.style.transform = `translateY(0px)`;
+                    }
+                    
+                    // Move small title up - same offset, using transform for smooth animation
+                    if (titleContainer) {
+                        // Use transform instead of top for smoother performance
+                        const translateY = -groupOffset;
+                        titleContainer.style.transform = `translateY(${translateY}px)`;
+                        titleContainer.style.top = initialSmallTitleTop + 'px';
+                        titleContainer.style.position = 'fixed';
+                    }
+                } else {
+                    // Small title container is stuck at top (stickyTopPosition) - always stays there
+                    if (titleContainer) {
+                        // Container always stays at top position
+                        titleContainer.style.transform = 'none';
+                        titleContainer.style.top = stickyTopPosition + 'px';
+                        titleContainer.style.position = 'fixed';
+                    }
+                    
+                    // Large title continues to move up (separate from small title now)
+                    if (canvas) {
+                        const additionalScroll = scrollTop - scrollToSticky;
+                        canvas.style.transform = `translateY(0px)`;
+                    }
+                }
+                
+                // Calculate scroll progress (0 to 1) - linear, not cyclical
+                // Start transitions only after title is stuck at top
+                const stickyScroll = Math.max(0, scrollTop - scrollToSticky);
+                const maxScroll = (documentHeight - windowHeight); // Full scroll range
+                const effectiveScroll = Math.max(0, maxScroll - scrollToSticky);
+                let rawScrollProgress = effectiveScroll > 0 ? Math.min(stickyScroll / effectiveScroll, 1) : 0;
+                
+                // Add "stuck" zones - delay when title reaches top (creates pause/hitch effect)
+                const stuckZoneSize = 0.15; // 15% of each section is a "stuck" zone
+                const numSections = 6;
+                let scrollProgress = 0;
+                
+                // Calculate adjusted scroll progress with stuck zones
+                for (let i = 0; i < numSections; i++) {
+                    const sectionStart = i / numSections;
+                    const sectionEnd = (i + 1) / numSections;
+                    const sectionSize = sectionEnd - sectionStart;
+                    const stuckZone = sectionSize * stuckZoneSize;
+                    const activeZone = sectionSize - stuckZone;
+                    
+                    if (rawScrollProgress >= sectionStart && rawScrollProgress < sectionEnd) {
+                        const progressInSection = (rawScrollProgress - sectionStart) / sectionSize;
+                        if (progressInSection < (activeZone / sectionSize)) {
+                            // In active zone - normal progress
+                            scrollProgress = sectionStart + (progressInSection * (activeZone / sectionSize)) * sectionSize;
+                        } else {
+                            // In stuck zone - stay at end of active zone
+                            scrollProgress = sectionStart + activeZone;
+                        }
+                        break;
+                    }
+                }
+                
+                if (rawScrollProgress >= 1) {
+                    scrollProgress = 1;
+                }
+                
+                // DIVIDE into sections for titles and descriptions
+                const sectionTitles = document.querySelectorAll('.section-title');
+                const descriptions = document.querySelectorAll('.section-description');
+                const descOffset = 132; // Increased distance from title top to description top (was 92)
+                
+                // Use rawScrollProgress for smooth, linear movement without pauses
+                const totalSections = 14; // Increased to accommodate non-overlapping transitions
+                const linearProgress = rawScrollProgress * totalSections;
+                const middleY = windowHeight / 2;
+
+                // Update all titles AND descriptions
+                let anySectionStuck = false;
+                let activeNavKeys = [];
+                
+                // --- שלב 1: חישוב הכותרת שצריכה להישאר "תקועה" למעלה ---
+                let stuckTitleIndex = -1;
+                if (scrollTop < scrollToSticky) {
+                    stuckTitleIndex = 0;
+                } else {
+                    for (let i = sectionTitles.length - 1; i >= 1; i--) {
+                        const sDuration = 1.8;
+                        const tGap = 0.2;
+                        let sStart;
+                        if (i === 1) sStart = -1.0;
+                        else if (i === 2) sStart = 2.55; // Delayed start from 2.35 to 2.55 (WILD)
+                        else if (i === 3) sStart = 6.3; // Delayed start from 5.65 to 6.3 (SSILD)
+                        else if (i === 4) sStart = 8.1; // Delayed start for FILD (was ~7.65)
+                        else if (i === 5) sStart = 9.5; // Adjusted start for MILD
+                        else if (i === 6) sStart = 10.7; // Earlier start for Dream Journal (was 11.65)
+                        else if (i === 7) sStart = 12.0; // Earlier start for the final title
+                        else sStart = 1.65 + (i - 2) * (sDuration + tGap) + 2.0;
+                        
+                        const sP = linearProgress - sStart;
+                        if (sP >= 1.0) {
+                            stuckTitleIndex = i;
+                            break;
+                        }
+                    }
+                    if (stuckTitleIndex === -1) stuckTitleIndex = 1;
+                }
+
+                // Map multiple "DURING THE NIGHT" titles to the first one (index 3)
+                // so it stays "stuck" at the top instead of being replaced by identical titles.
+                let displayStuckTitleIndex = stuckTitleIndex;
+                if (displayStuckTitleIndex === 4 || displayStuckTitleIndex === 5) {
+                    displayStuckTitleIndex = 3;
+                }
+
+                sectionTitles.forEach((title, index) => {
+                    const desc = descriptions[index - 1]; // descriptions start from index 1 (DURING THE DAY...)
+                    
+                    title.classList.remove('active', 'fade-in', 'fade-out');
+                    if (desc) desc.classList.remove('visible');
+                    
+                    const sectionDuration = 1.8; 
+                    const transitionGap = 0.2;  
+                    let sectionStart;
+                    if (index === 1) sectionStart = -1.0;
+                    else if (index === 2) sectionStart = 2.55; // Delayed start from 2.35 to 2.55 (WILD)
+                    else if (index === 3) sectionStart = 6.3; // Delayed start from 5.65 to 6.3 (SSILD)
+                    else if (index === 4) sectionStart = 8.1; // Delayed start for FILD (was ~7.65)
+                    else if (index === 5) sectionStart = 9.5; // Adjusted start for MILD
+                    else if (index === 6) sectionStart = 10.7; // Earlier start for Dream Journal (was 11.65)
+                    else if (index === 7) sectionStart = 12.0; // Earlier start for the final title
+                    else sectionStart = 1.65 + (index - 2) * (sectionDuration + transitionGap) + 2.0;
+
+                    const p = (index === 0) ? 0 : linearProgress - sectionStart;
+
+                    // --- לוגיקת כותרות (Titles) ---
+                    let titleY = -2000;
+                    let titleOpacity = 0;
+                    let isTitleVisible = false;
+
+                    if (index === 0) {
+                        if (scrollTop < scrollToSticky) {
+                            const currentRelativeTop = stickyTopPosition - (initialSmallTitleTop - scrollTop);
+                            title.style.transform = `translateX(-50%) translateY(${currentRelativeTop}px)`;
+                            title.style.opacity = '1';
+                            title.classList.add('active');
+                            return; // Skip rest for title 0 pre-sticky
+                        } else {
+                            isTitleVisible = (displayStuckTitleIndex === 0);
+                            titleY = stickyTopPosition;
+                            titleOpacity = 1;
+                        }
+                    } else {
+                        if (index === displayStuckTitleIndex) {
+                            titleY = stickyTopPosition;
+                            titleOpacity = 1;
+                            isTitleVisible = true;
+                        } else if (p >= 0 && p < 1.0) {
+                            // שלב העלייה
+                            // Skip rising animation for duplicate "DURING THE NIGHT" titles (indices 4 and 5)
+                            if (index !== 4 && index !== 5) {
+                                titleY = windowHeight - (windowHeight - stickyTopPosition) * p;
+                                titleOpacity = 1;
+                                isTitleVisible = true;
+                            }
+                        } else if (index === 1 && scrollTop < scrollToSticky) {
+                            // כניסה מוקדמת לכותרת 1
+                            const entryProgress = Math.min(scrollTop / scrollToSticky, 1);
+                            titleY = windowHeight - (windowHeight - stickyTopPosition) * entryProgress;
+                            titleOpacity = 1;
+                            isTitleVisible = true;
+                        }
+                    }
+
+                    if (index !== 0 || scrollTop >= scrollToSticky) {
+                        if (isTitleVisible) {
+                            title.style.opacity = titleOpacity;
+                            title.style.transform = `translateX(-50%) translateY(${titleY - stickyTopPosition}px)`;
+                            title.classList.add('active');
+                        } else {
+                            title.style.opacity = '0';
+                        }
+                    }
+
+                    // --- לוגיקת פסקאות/תיאורים (Descriptions) ---
+                    // הפסקאות ממשיכות לזוז ולעלות כרגיל (Phase 3 exit)
+                    if (desc) {
+                        let descY = -2000;
+                        let descOpacity = 0;
+                        let showDesc = false;
+                        let isDescInStuckPhase = false;
+
+                        // Define target Y for when the description stops (stuck phase)
+                        // For Reality Test (index 1), we want it slightly higher up (in the empty space above clouds)
+                        const targetStuckY = (index === 1) ? (stickyTopPosition - 35) : stickyTopPosition;
+
+                        if (index === 1 && scrollTop < scrollToSticky) {
+                            const entryProgress = Math.min(scrollTop / scrollToSticky, 1);
+                            descY = windowHeight - (windowHeight - targetStuckY) * entryProgress;
+                            descOpacity = 1;
+                            showDesc = true;
+                        } else if (scrollTop >= scrollToSticky) {
+                            if (p >= 0 && p <= sectionDuration) {
+                                if (p <= 1.0) {
+                                    descY = windowHeight - (windowHeight - targetStuckY) * p;
+                                    descOpacity = 1;
+                                    showDesc = true;
+                                } else if (p <= 1.3) {
+                                    descY = targetStuckY;
+                                    descOpacity = 1;
+                                    showDesc = true;
+                                    isDescInStuckPhase = true;
+                                } else {
+                                    const exitP = (p - 1.3) / (sectionDuration - 1.3); 
+                                    descY = targetStuckY - (targetStuckY + 500) * exitP;
+                                    descOpacity = Math.max(0, 1 - exitP);
+                                    showDesc = exitP < 0.8;
+                                }
+                            }
+                        }
+
+                        if (showDesc) {
+                            const dOffsetY = descY - stickyTopPosition;
+                            desc.style.opacity = descOpacity;
+                            desc.style.top = '0px';
+                            const descBaseY = stickyTopPosition + 132;
+                            desc.style.transform = `translateY(${descBaseY + dOffsetY}px)`;
+                            desc.classList.add('visible');
+                        } else {
+                            desc.style.opacity = '0';
+                            desc.classList.remove('visible');
+                        }
+
+                        if (isDescInStuckPhase) {
+                            anySectionStuck = true;
+                            if (index === 1) activeNavKeys.push('RT');
+                            if (index === 2) activeNavKeys.push('WRILD');
+                            if (index === 3) activeNavKeys.push('SSILD');
+                            if (index === 4) activeNavKeys.push('FILD');
+                            if (index === 5) activeNavKeys.push('MILD');
+                            if (index === 6) activeNavKeys.push('DJ');
+                        }
+                    }
+                });
+                
+                // Update navigation active state based on scroll
+                const navItems = document.querySelectorAll('.secondary-nav-item');
+                navItems.forEach(item => {
+                    const navKey = item.getAttribute('data-nav');
+                    
+                    let shouldBeActive = false;
+                    
+                    if (activeNavKeys.includes(navKey)) {
+                        // If we are in a section with multiple items (like SSILD, FILD, MILD)
+                        // and one of them was clicked, only show that one as active.
+                        if (lastClickedNav && activeNavKeys.includes(lastClickedNav)) {
+                            shouldBeActive = (navKey === lastClickedNav);
+                        } else {
+                            // Normal scroll behavior
+                            shouldBeActive = true;
+                        }
+                    } else if (navKey === lastClickedNav) {
+                        // Keep the clicked one active even in "gaps" or transitions
+                        shouldBeActive = true;
+                    }
+
+                    if (shouldBeActive) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+                
+                // --- שלב 3: לוגיקת סוף גלילה ---
+                if (scrollProgress >= 1) {
+                    sectionTitles.forEach((title, index) => {
+                        title.classList.remove('active');
+                        if (index === sectionTitles.length - 1) { // הכותרת האחרונה
+                            title.classList.add('active');
+                            title.style.opacity = '1';
+                            title.style.transform = 'translateX(-50%)';
+                        } else {
+                            title.style.opacity = '0';
+                        }
+                    });
+                }
+            }
+            
+            // Function to update title position (called on resize)
+            function updateTitlePosition() {
+                // This function is now handled in updateSectionTitles
+                // But we keep it for resize events to recalculate
+                updateSectionTitles();
+            }
+            
+            // Make updateSectionTitles globally accessible within the script
+            window.updateSectionTitles = updateSectionTitles;
+            window.updateColorsBasedOnScroll = updateColorsBasedOnScroll;
+            
+            // Listen to scroll events
+            window.addEventListener('scroll', function() {
+                updateColorsBasedOnScroll();
+                updateSectionTitles();
+                updateTitlePosition();
+            });
+            
+            // Clear lastClickedNav on manual scroll to restore automatic behavior
+            window.addEventListener('wheel', () => { lastClickedNav = null; });
+            window.addEventListener('touchstart', () => { lastClickedNav = null; });
+            
+            // Update on resize
+            window.addEventListener('resize', function() {
+                updateTitlePosition();
+            });
+            
+            // Update on load
+            updateColorsBasedOnScroll();
+            updateSectionTitles();
+            updateTitlePosition();
+
+            // Splash screen enter key and click handler
+            window.hideSplash = function(enableSound) {
+                const splash = document.getElementById('intro-splash');
+                const audio = document.getElementById('ambient-sound');
+                
+                // Remove no-scroll class to allow scrolling
+                document.body.classList.remove('no-scroll');
+                
+                if (splash) {
+                    if (enableSound === true && audio) {
+                        // Set volume to be lower (background noise level)
+                        audio.volume = 0.2;
+                        
+                        // Change UI state IMMEDIATELY before starting the audio
+                        window.isPlaying = true;
+                        window.updatePlayPauseUI();
+                        
+                        audio.play().catch(e => {
+                            console.error("Audio play failed:", e);
+                        });
+                    } else {
+                        window.isPlaying = false;
+                        window.updatePlayPauseUI();
+                    }
+                    
+                    splash.style.opacity = '0';
+                    splash.style.pointerEvents = 'none'; // Disable clicks once fading
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                    }, 500);
+                }
+            }
+
+            // Play/Pause toggle state and function - made global for absolute certainty
+            window.isPlaying = false; 
+            
+            window.updatePlayPauseUI = function() {
+                const btn = document.querySelector('.top-right-play-pause');
+                if (btn) {
+                    const textSpan = btn.querySelector('.btn-text');
+                    const icon = btn.querySelector('i');
+                    if (textSpan && icon) {
+                        textSpan.textContent = window.isPlaying ? 'PAUSE' : 'PLAY';
+                        icon.className = window.isPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play';
+                    }
+                }
+            }
+
+            window.togglePlayPause = function() {
+                const audio = document.getElementById('ambient-sound');
+                if (!audio) return;
+
+                if (window.isPlaying) {
+                    audio.pause();
+                } else {
+                    audio.play().catch(e => console.error("Audio play failed:", e));
+                }
+                
+                window.isPlaying = !window.isPlaying;
+                window.updatePlayPauseUI();
+            };
+
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    window.hideSplash();
+                }
+            });
+        });
+        
+        // Global to track last clicked nav
+        let lastClickedNav = null;
+
+        // Toggle About overlay
+        window.toggleAbout = function(show) {
+            const aboutOverlay = document.getElementById('about-overlay');
+            const aboutBtn = document.querySelector('.top-left-about-title');
+            
+            if (aboutOverlay) {
+                // If 'show' is not provided, toggle the current state
+                const isCurrentlyActive = aboutOverlay.classList.contains('active');
+                const shouldShow = (show !== undefined) ? show : !isCurrentlyActive;
+                
+                if (shouldShow) {
+                    aboutOverlay.style.display = 'flex';
+                    // Trigger reflow for transition
+                    aboutOverlay.offsetHeight;
+                    aboutOverlay.classList.add('active');
+                    if (aboutBtn) aboutBtn.textContent = 'CLOSE';
+                } else {
+                    aboutOverlay.classList.remove('active');
+                    if (aboutBtn) aboutBtn.textContent = 'ABOUT';
+                    setTimeout(() => {
+                        if (!aboutOverlay.classList.contains('active')) {
+                            aboutOverlay.style.display = 'none';
+                        }
+                    }, 500);
+                }
+            }
+        };
+
+        // Handle new navigation clicks
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-rect, .secondary-nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all nav items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+
+                    const navKey = this.getAttribute('data-nav');
+                    lastClickedNav = navKey;
+                    
+                    const navigationMap = {
+                        'RT': -0.04,    // lands at p=1.15 for Reality Test
+                        'WRILD': 0.21,  // lands at p=1.15 for WRILD
+                        'SSILD': 0.48,  // lands at p=1.15 for SSILD
+                        'FILD': 0.61,   // lands at p=1.15 for FILD
+                        'MILD': 0.71,   // lands at p=1.15 for MILD
+                        'DJ': 0.80      // lands at p=1.15 for Dream Journal
+                    };
+
+                    if (navigationMap[navKey] !== undefined) {
+                                const windowHeight = window.innerHeight;
+                                const documentHeight = document.documentElement.scrollHeight;
+                                
+                                // Recalculate positions based on the same logic as updateSectionTitles
+                                const largeTitleCenterY = windowHeight / 2 - 70;
+                                const largeTitleHeight = window.innerWidth * 0.15;
+                                const spacing = 300;
+                                const initialSmallTitleTop = largeTitleCenterY + (largeTitleHeight / 2) + spacing;
+                                const stickyTopPosition = 17;
+                                const scrollToSticky = initialSmallTitleTop - stickyTopPosition;
+                                
+                                const maxScroll = (documentHeight - windowHeight);
+                                const effectiveScroll = maxScroll - scrollToSticky;
+                                
+                        let targetProgress = navigationMap[navKey] + 0.05; 
+                                const targetScroll = scrollToSticky + (targetProgress * effectiveScroll);
+                                
+                                window.scrollTo({
+                                    top: targetScroll,
+                                    behavior: 'smooth'
+                                });
+
+                        // Force immediate update of colors
+                        setTimeout(() => {
+                            if (typeof updateSectionTitles === 'function') {
+                                updateSectionTitles();
+                            }
+                        }, 0);
+                    }
+                });
+            });
+
+            // Restore scroll position if returning from about.html
+            const returnScroll = sessionStorage.getItem('aboutReturnScroll');
+            if (returnScroll !== null) {
+                // Hide splash screen immediately if returning from about
+                const splash = document.getElementById('intro-splash');
+                if (splash) {
+                    splash.style.display = 'none';
+                    document.body.classList.remove('no-scroll');
+                }
+
+                window.scrollTo(0, parseInt(returnScroll));
+                sessionStorage.removeItem('aboutReturnScroll');
+                // Update visuals immediately
+                setTimeout(() => {
+                    if (typeof updateSectionTitles === 'function') updateSectionTitles();
+                    if (typeof updateColorsBasedOnScroll === 'function') updateColorsBasedOnScroll();
+                }, 50);
+            }
+        });
+    </script>
+</body>
+</html>

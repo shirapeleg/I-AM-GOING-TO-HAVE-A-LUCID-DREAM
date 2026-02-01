@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Lucid Dreams</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <style>
+        .about-screen {
+            position: fixed;
+            top: 45px;
+            left: 0;
+            width: 100vw;
+            height: calc(100vh - 45px);
+            background-color: rgba(18, 43, 165, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .about-content-box {
+            background-color: #FFFFFF;
+            padding: 50px 40px;
+            width: 90%;
+            max-width: 420px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .about-title {
+            font-family: 'PP Neue Montreal Mono', monospace;
+            font-size: 14px;
+            color: #758BFD;
+            margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .about-description {
+            font-family: 'PP Neue Montreal Mono', monospace;
+            font-size: 13px;
+            color: #758BFD;
+            text-align: left;
+            max-width: 100%;
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            margin-bottom: 30px;
+        }
+
+        .about-back {
+            margin-top: 10px;
+            cursor: pointer;
+            font-family: 'KronaOne', sans-serif;
+            font-size: 13px;
+            color: rgba(44, 45, 67, 0.5);
+            transition: opacity 0.3s, color 0.3s;
+            text-align: center;
+            width: 100%;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 0.25em;
+        }
+
+        .about-back:hover {
+            opacity: 1;
+            color: #758BFD;
+        }
+
+        /* Keep header elements visible */
+        .top-left-about-title {
+            color: #758BFD !important;
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body class="no-scroll">
+    <div class="top-left-about-title" onclick="goBack()">ABOUT</div>
+    <div class="top-right-play-pause" onclick="togglePlayPause()">
+        <span class="btn-text">PLAY</span>
+        <i class="fa-solid fa-play"></i>
+    </div>
+    <div class="top-line"></div>
+    <div class="header-blur"></div>
+
+    <div class="about-screen">
+        <div class="about-content-box">
+            <div class="about-description">
+                Lucid Dreaming is a scientifically recognized state where an individual attains metacognitive awareness while remains in REM sleep. In this state, the dreamer gains the ability to consciously observe or exert control over the dream environment, transforming a passive experience into an active, immersive simulation. Practitioners pursue lucidity for various applications, including cognitive skill rehearsal, creative problem-solving, and the therapeutic resolution of recurring nightmares.
+                <br><br>
+                Achieving consistent lucidity requires a systematic approach to memory and awareness. This platform is designed to streamline that process by providing technical protocols and structured induction methods. By consolidating habit-forming techniques and cognitive primers into a functional framework, this site serves as a specialized toolkit to help you bridge the gap between intent and awareness.
+            </div>
+            <a href="index.html" class="about-back" onclick="goBack(); return false;">GO BACK</a>
+        </div>
+    </div>
+
+    <!-- Hidden audio element to keep logic consistent if user navigates -->
+    <audio id="ambient-sound" loop>
+        <source src="goodsound.mp4" type="audio/mp4">
+    </audio>
+
+    <!-- Necessary elements for sketch.js to not break -->
+    <div id="footer-chita-placeholder" style="display:none"></div>
+    <div id="scroll-spacer" style="display:none"></div>
+    <div id="wrild-text" style="display:none">
+        <textarea id="wrild-textarea"></textarea>
+    </div>
+
+    <script src="sketch.js"></script>
+    <script>
+        // Copy some basic logic from index.html
+        window.isPlaying = false;
+        
+        window.updatePlayPauseUI = function() {
+            const btn = document.querySelector('.top-right-play-pause');
+            if (btn) {
+                const textSpan = btn.querySelector('.btn-text');
+                const icon = btn.querySelector('i');
+                if (textSpan && icon) {
+                    textSpan.textContent = window.isPlaying ? 'PAUSE' : 'PLAY';
+                    icon.className = window.isPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play';
+                }
+            }
+        }
+
+        window.togglePlayPause = function() {
+            const audio = document.getElementById('ambient-sound');
+            if (!audio) return;
+            if (window.isPlaying) { audio.pause(); } 
+            else { audio.play().catch(e => console.error(e)); }
+            window.isPlaying = !window.isPlaying;
+            window.updatePlayPauseUI();
+        };
+
+        window.goBack = function() {
+            window.location.href = 'index.html';
+        };
+
+        // Initialize colors for p5
+        if (typeof updateP5Colors === 'function') {
+            updateP5Colors([[217, 217, 217], [107, 107, 107], [64, 65, 85]], [255, 255, 255]);
+        }
+    </script>
+</body>
+</html>
